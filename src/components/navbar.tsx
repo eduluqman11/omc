@@ -6,7 +6,6 @@ const Navbar = ({ brandName }: { brandName:string }) => {
 
   const { cart } = useCart();
 
-  console.log(cart)
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
