@@ -14,14 +14,17 @@ interface IShoppingCart {
 }
 const ShoppingCartCard = ({id,image,price,description,quantity,onRemove}:IShoppingCart) =>{
     const {addToCart,removeToCart} = useCart()
+    const [increment,setIncrement] = useState(quantity)
 
     function incremntQunatity(id:number,quantity:number){
         const obj = {id,quantity}
+        setIncrement(increment + 1)
         addToCart(obj)
     }
 
     function decrementQuantity(id:number,quantity:number){
         const obj = {id,quantity}
+        setIncrement(Math.max(increment - 1,1))
         removeToCart(obj)
     }
 
@@ -43,7 +46,7 @@ const ShoppingCartCard = ({id,image,price,description,quantity,onRemove}:IShoppi
                             <Plus  className="border rounded-sm cursor-pointer hover:bg-gray-200" onClick={()=>incremntQunatity(id,quantity)}/>
                             </div>
                             <div className="text-end md:order-4 md:w-32">
-                                <p className="text-base font-bold text-gray-900 dark:text-white">${price}</p>
+                                <p className="text-base font-bold text-gray-900 dark:text-white">${(increment * price).toFixed(2)}</p>
                             </div>
                         </div>
 

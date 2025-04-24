@@ -59,9 +59,7 @@ export const CartProvider:React.FC<{ children: React.ReactNode }> =({ children }
     if (existingProduct) {
       setCart(
         cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
+          item.id === product.id ? { ...item, quantity: Math.max(item.quantity - 1,1) } : item
         )
       );
     } 

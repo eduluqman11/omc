@@ -104,7 +104,7 @@ export default function Cart(){
                </div>
              </div>
            </div>
-           <OrderSummeryCard OriginalPirce={total.toFixed(2)} saving={289}  pickeUpCharge={199} tax={200}/>
+           <OrderSummeryCard OriginalPrice={total.toFixed(2)} saving={-50}  pickUpCharge={20} tax={18}/>
           </div>
        </div>
        :<h2 className="text-center">No Cart Added!</h2>

@@ -3,12 +3,19 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 interface IOrderSummery{
-  OriginalPirce:number;
-  saving:number;
-  pickeUpCharge:number;
-  tax:number;
+  OriginalPrice:number;
+  saving?:number;
+  pickUpCharge?:number;
+  tax?:number;
 }
-const OrderSummeryCard = ({OriginalPirce,saving,pickeUpCharge,tax}:IOrderSummery)=>{
+const OrderSummeryCard = ({OriginalPrice,saving,pickUpCharge,tax}:IOrderSummery)=>{
+    const calculateTotal = (
+        Number(OriginalPrice) +
+        Number(saving || 0) +
+        Number(pickUpCharge || 0) +
+        Number(tax || 0)
+      ).toFixed(2);
+      
     return (
         <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
         <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
@@ -18,20 +25,24 @@ const OrderSummeryCard = ({OriginalPirce,saving,pickeUpCharge,tax}:IOrderSummery
             <div className="space-y-2">
               <dl className="flex items-center justify-between gap-4">
                 <dt className="text-base font-title text-gray-500 dark:text-gray-400">Original price</dt>
-                <dd className="text-base font-medium text-gray-900 dark:text-white">${OriginalPirce}</dd>
+                <dd className="text-base font-medium text-gray-900 dark:text-white">${OriginalPrice}</dd>
               </dl>
 
-              <dl className="flex items-center justify-between gap-4">
-                <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
-                <dd className="text-base font-medium text-green-600">-${saving}</dd>
-              </dl>
+             {
+                saving && (
+                 <dl className="flex items-center justify-between gap-4">
+                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                 <dd className="text-base font-medium text-green-600">${saving}</dd>
+               </dl>)
+             }
 
               {
-              pickeUpCharge && (
+               pickUpCharge && (
                 <dl className="flex items-center justify-between gap-4">
                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
-                <dd className="text-base font-medium text-gray-900 dark:text-white">${pickeUpCharge}</dd>
-              </dl>)
+                <dd className="text-base font-medium text-gray-900 dark:text-white">${pickUpCharge}</dd>
+              </dl>
+              )
               }
 
               { tax && (
@@ -45,7 +56,7 @@ const OrderSummeryCard = ({OriginalPirce,saving,pickeUpCharge,tax}:IOrderSummery
 
             <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
               <dt className="font-title text-xl text-gray-900 dark:text-white">Total</dt>
-              <dd className="text-base font-title text-gray-900 dark:text-white">$8,191.00</dd>
+              <dd className="text-base font-title text-gray-900 dark:text-white">${calculateTotal || 0}</dd>
             </dl>
           </div>
 
