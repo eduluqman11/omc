@@ -1,18 +1,30 @@
+import { useCart } from "@/context/cartContext";
 import { Minus, Plus, X } from "lucide-react"
 import Link from "next/link";
 import { useState } from "react";
 
 interface IShoppingCart {
-    id:string;
+    id:number;
     image:string;
     price:number;
     description:string;
-    quantity:string;
-    onRemove: (id: string) => void;
+    quantity:number;
+    onRemove: (id: number) => void;
 
 }
 const ShoppingCartCard = ({id,image,price,description,quantity,onRemove}:IShoppingCart) =>{
-    
+    const {addToCart,removeToCart} = useCart()
+
+    function incremntQunatity(id:number,quantity:number){
+        const obj = {id,quantity}
+        addToCart(obj)
+    }
+
+    function decrementQuantity(id:number,quantity:number){
+        const obj = {id,quantity}
+        removeToCart(obj)
+    }
+
     return (
         <>
             <div className="space-y-6  m-1">
@@ -26,9 +38,9 @@ const ShoppingCartCard = ({id,image,price,description,quantity,onRemove}:IShoppi
                         <label htmlFor="counter-input" className="sr-only">Choose quantity:</label>
                         <div className="flex items-center justify-between md:order-3 md:justify-end">
                             <div className="flex items-center">
-                            <Minus className="border rounded-sm cursor-pointer hover:bg-gray-200"/>
+                            <Minus className="border rounded-sm cursor-pointer hover:bg-gray-200" onClick={()=>decrementQuantity(id,quantity)}/>
                                 <input type="text" id="counter-input" data-input-counter className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" placeholder="" value={quantity} required />
-                            <Plus  className="border rounded-sm cursor-pointer hover:bg-gray-200"/>
+                            <Plus  className="border rounded-sm cursor-pointer hover:bg-gray-200" onClick={()=>incremntQunatity(id,quantity)}/>
                             </div>
                             <div className="text-end md:order-4 md:w-32">
                                 <p className="text-base font-bold text-gray-900 dark:text-white">${price}</p>

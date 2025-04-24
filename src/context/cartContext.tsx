@@ -9,13 +9,16 @@ export interface ICart {
 export interface ICartContext {
   cart: ICart[]; 
   addToCart: (item: ICart) => void; 
+  removeToCart:(item: ICart) => void; 
   removeFromCart: (id: number) => void; 
   clearCart: () => void; 
+
 }
 
 const CartContext = createContext<ICartContext>({
     cart: [], 
     addToCart: () => {}, 
+    removeToCart:()=>{},
     removeFromCart: () => {}, 
     clearCart: () => {}, 
   });
@@ -51,6 +54,19 @@ export const CartProvider:React.FC<{ children: React.ReactNode }> =({ children }
     }
   };
 
+  const removeToCart = (product:ICart) => {
+    const existingProduct = cart.find((item:ICart) => item.id === product.id);
+    if (existingProduct) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+      );
+    } 
+  };
+
   const removeFromCart = (productId:number) => {
     setCart(cart.filter((item:ICart) => item.id !== productId));
   };
@@ -60,7 +76,7 @@ export const CartProvider:React.FC<{ children: React.ReactNode }> =({ children }
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart , removeToCart}}>
       {children}
     </CartContext.Provider>
   );
