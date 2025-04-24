@@ -32,14 +32,16 @@ export default function Cart(){
         
         const merged = data?.map((product) => {
           const cartItem = cart.find((item) => item.id === product.id);
-          return {
-            ...product,
-            quantity: cartItem?.quantity || 1, // fallback if not found
-          };
+          return { ...product,quantity: cartItem?.quantity || 1 };
         }) || [];
 
-        const handleRemoveProduct = (productId: string) => {
-          removeFromCart(Number(productId))
+        const total = merged?.reduce((acc,cur)=>{
+          acc += cur.quantity * cur.price
+          return acc
+        },0)
+
+        const handleRemoveProduct = (productId: number) => {
+          removeFromCart(productId)
         };
 
     return (
@@ -102,10 +104,8 @@ export default function Cart(){
                </div>
              </div>
            </div>
-     
-     <OrderSummeryCard />
-
-         </div>
+           <OrderSummeryCard OriginalPirce={total.toFixed(2)} saving={289}  pickeUpCharge={199} tax={200}/>
+          </div>
        </div>
        :<h2 className="text-center">No Cart Added!</h2>
         }
