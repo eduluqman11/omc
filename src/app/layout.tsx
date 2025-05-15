@@ -32,13 +32,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <QueryClientProvider client={queryClient}>
-         <CartProvider>
+        <QueryClientProvider client={queryClient}>
+          <CartProvider>
             {/* Navbar will consume cartCount dynamically */}
             <Navbar brandName="Glauben Enterprises" />
             {children}
           </CartProvider>
-         </QueryClientProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
